@@ -2,6 +2,7 @@ package com.appland.appmap.cli;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import io.github.pixee.security.SystemCommand;
 import org.apache.commons.lang3.SystemUtils;
 import org.yaml.snakeyaml.Yaml;
 import picocli.CommandLine;
@@ -121,7 +122,7 @@ public class Status implements Callable<Integer> {
       String command = gradleWrapper + " --help appmap";
       // System.err.printf("Attempting: %s\n", command);
       try {
-        Process process = Runtime.getRuntime().exec(command);
+        Process process = SystemCommand.runCommand(Runtime.getRuntime(), command);
         process.waitFor(60, TimeUnit.SECONDS);
         return process.exitValue() == 0;
       } catch (IOException | InterruptedException e) {
@@ -152,7 +153,7 @@ public class Status implements Callable<Integer> {
       String command = mavenWrapper + " -Dplugin=com.appland:appmap-maven-plugin help:describe";
       // System.err.printf("Attempting: %s\n", command);
       try {
-        Process process = Runtime.getRuntime().exec(command);
+        Process process = SystemCommand.runCommand(Runtime.getRuntime(), command);
         process.waitFor(60, TimeUnit.SECONDS);
         return process.exitValue() == 0;
       } catch (IOException | InterruptedException e) {
