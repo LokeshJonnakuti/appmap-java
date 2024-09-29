@@ -1,5 +1,7 @@
 package com.appland.appmap;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -167,7 +169,7 @@ public class Agent {
       // come from a jar file.
       if (resourceURL.getProtocol().equals("jar")) {
         String resourcePath = resourceURL.getPath();
-        URL jarURL = new URL(resourcePath.substring(0, resourcePath.indexOf('!')));
+        URL jarURL = Urls.create(resourcePath.substring(0, resourcePath.indexOf('!')), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         logger.debug("jarURL: {}", jarURL);
         agentJarPath = Paths.get(jarURL.toURI());
       }
